@@ -1,0 +1,9 @@
+*
+
+!META-INF
+!META-INF/**
+!.gitignore
+!action.sh
+!LICENSE
+!module.prop
+!post-fs-data.sh
