@@ -12,33 +12,40 @@ function prepare_file() {
   chown shell:shell "$file_path"
 }
 
-function watch_logcat() {
-  local file_path="$SAVE_FOLDER/DebugAssistant$1.log"
-
-  su -c "logcat -f \"$file_path\"" &
+function log_watcher() {
+  local file_path="$SAVE_FOLDER/DebugAssistant$2.log"
+  if [[ $1 == "dmesg" ]]; then
+    su -c "dmesg -w \"$file_path\"" &
+  elif [[ $1 == "logcat" ]]; then
+    su -c "logcat -f \"$file_path\"" &
+  else
+    su -c "logcat -f \"$file_path\"" &
+  fi
 }
 
 # Check if file exists
-if [ -f $SAVE_FOLDER/DebugAssistant.log ]; then
-  # Check if file -2 exists
-  if [ -f $SAVE_FOLDER/DebugAssistant-Boot2.log ]; then
-    # Check if file -3 exists
-    if [ -f $SAVE_FOLDER/DebugAssistant-Boot3.log ]; then
-      rm $SAVE_FOLDER/DebugAssistant-Boot3.log
-      rm $SAVE_FOLDER/DebugAssistant-Boot2.log
-      rm $SAVE_FOLDER/DebugAssistant.log
-
-      prepare_file ""
-      watch_logcat ""
-    else
-      prepare_file "-Boot3"
-      watch_logcat "-Boot3"
-    fi
-  else
-    prepare_file "-Boot2"
-    watch_logcat "-Boot2"
-  fi
+if [[ ! -f "$SAVE_FOLDER/DebugAssistant-LOGCAT-Boot1.log" || ! -r "$SAVE_FOLDER/DebugAssistant-DMESG-Boot1.log" ]]; then
+  prepare_file "-LOGCAT-Boot1"
+  prepare_file "-DMESG-Boot1"
+  log_watcher "logcat" "-LOGCAT-Boot1"
+  log_watcher "dmesg" "-DMESG-Boot1"
+elif [[ ! -f "$SAVE_FOLDER/DebugAssistant-LOGCAT-Boot2.log" || ! -r "$SAVE_FOLDER/DebugAssistant-DMESG-Boot2.log" ]]; then
+  prepare_file "-LOGCAT-Boot2"
+  prepare_file "-DMESG-Boot2"
+  log_watcher "logcat" "-LOGCAT-Boot2"
+  log_watcher "dmesg" "-DMESG-Boot2"
+elif [[ ! -f "$SAVE_FOLDER/DebugAssistant-LOGCAT-Boot3.log" || ! -r "$SAVE_FOLDER/DebugAssistant-DMESG-Boot3.log" ]]; then
+  prepare_file "-LOGCAT-Boot3"
+  prepare_file "-DMESG-Boot3"
+  log_watcher "logcat" "-LOGCAT-Boot3"
+  log_watcher "dmesg" "-DMESG-Boot3"
 else
-  prepare_file ""
-  watch_logcat ""
+  rm $SAVE_FOLDER/DebugAssistant-LOGCAT-Boot1.log $SAVE_FOLDER/DebugAssistant-DMESG-Boot1.log
+  rm $SAVE_FOLDER/DebugAssistant-LOGCAT-Boot2.log $SAVE_FOLDER/DebugAssistant-DMESG-Boot2.log
+  rm $SAVE_FOLDER/DebugAssistant-LOGCAT-Boot3.log $SAVE_FOLDER/DebugAssistant-DMESG-Boot3.log
+
+  prepare_file "-LOGCAT-Boot1"
+  prepare_file "-DMESG-Boot1"
+  log_watcher "logcat" "-LOGCAT-Boot1"
+  log_watcher "dmesg" "-DMESG-Boot1"
 fi
