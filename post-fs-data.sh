@@ -15,7 +15,7 @@ function prepare_file() {
 function log_watcher() {
   local file_path="$SAVE_FOLDER/DebugAssistant$2.log"
   if [[ $1 == "dmesg" ]]; then
-    su -c "dmesg -w \"$file_path\"" &
+    su -c "dmesg -w > \"$file_path\"" &
   elif [[ $1 == "logcat" ]]; then
     su -c "logcat -f \"$file_path\"" &
   else
