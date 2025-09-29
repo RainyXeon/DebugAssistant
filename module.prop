@@ -1,6 +1,6 @@
 id=debug_assistant
-name=Debug Assistant [EXPERIMENTAL]
-version=v3.0.0
-versionCode=300
+name=Debug Assistant
+version=v3.1.0
+versionCode=310
 author=ThePedroo and RainyXeon
 description=If can be made, why not done?

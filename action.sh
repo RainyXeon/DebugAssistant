@@ -5,12 +5,12 @@
 
 echo "Selecting the latest debug log file..."
 
-if [ -f "/data/local/tmp/DebugAssistant-Boot3.log" ]; then
-  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant-Boot3.log"
-elif [ -f "/data/local/tmp/DebugAssistant-Boot2.log" ]; then
-  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant-Boot2.log"
-elif [ -f "/data/local/tmp/DebugAssistant.log" ]; then
-  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant.log"
+if [ -f "/data/local/tmp/DebugAssistant-LOGCAT-Boot3.log" ]; then
+  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant-LOGCAT-Boot3.log"
+elif [ -f "/data/local/tmp/DebugAssistant-LOGCAT-Boot2.log" ]; then
+  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant-LOGCAT-Boot2.log"
+elif [ -f "/data/local/tmp/DebugAssistant-LOGCAT-Boot1.log" ]; then
+  LATEST_DEBUG_LOG="/data/local/tmp/DebugAssistant-LOGCAT-Boot1.log"
 else
   echo "No debug log found."
   exit 1
